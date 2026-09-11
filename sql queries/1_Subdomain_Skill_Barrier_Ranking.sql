@@ -12,4 +12,4 @@ FROM job_postings_fact
 LEFT JOIN job_skill_required
 USING(job_id)
 GROUP BY sub_job_category
-ORDER BY sub_job_COUNT ASC;
+ORDER BY skill_job_COUNT ASC;
