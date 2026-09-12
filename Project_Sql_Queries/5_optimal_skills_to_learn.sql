@@ -13,6 +13,7 @@ HAVING COUNT(job_id)>30)
 (SELECT skill_id,skills,num_job_posted,MAX(num_job_posted) OVER() AS max_job_posted,MIN(num_job_posted) OVER() AS min_job_posted,yearly_avg, MAX(yearly_avg) OVER() AS max_yearly_salary,MIN(yearly_avg) OVER() AS min_yearly_salary,hourly_avg,MAX(hourly_avg) OVER() AS max_hourly_salary,MIN(hourly_avg) OVER() AS min_hourly_salary
 FROM salary_via_demand)
 
-SELECT skill_id,skills,num_job_posted,yearly_avg,hourly_avg,0.7*(num_job_posted-min_job_posted)/(max_job_posted-min_job_posted)+0.3*COALESCE((yearly_avg-min_yearly_salary)/(max_yearly_salary-min_yearly_salary),(hourly_avg-min_hourly_salary)/(max_hourly_salary-min_hourly_salary)) AS optimal_index
+SELECT skill_id,skills,num_job_posted,yearly_avg,hourly_avg,ROUND(0.7*(num_job_posted-min_job_posted)/(max_job_posted-min_job_posted)+0.3*COALESCE((yearly_avg-min_yearly_salary)/(max_yearly_salary-min_yearly_salary),(hourly_avg-min_hourly_salary)/(max_hourly_salary-min_hourly_salary)),4) AS optimal_index
 FROM max_min_salary_via_demand
-ORDER BY optimal_index DESC NULLS LAST;
+ORDER BY optimal_index DESC NULLS LAST
+LIMIT 10;

@@ -4,7 +4,7 @@ FROM job_postings_fact)
 SELECT mean_yearly_salary,median_yearly_salary, (mean_yearly_salary-median_yearly_salary)/(median_yearly_salary)*100 AS deviation_percentile_yearly,mean_hourly_salary,median_hourly_salary,(mean_hourly_salary-median_hourly_salary)/(median_hourly_salary)*100 AS deviation_percentile_hourly
 FROM avg_n_median_salary;
 --finding missing value of overall salary data both hourly and yearly for internships
-SELECT COUNT(*)::numeric/(SELECT COUNT(*) FROM job_postings_fact WHERE LOWER(job_schedule_type) LIKE '%internship%')*100. AS percentile_missing_info
+SELECT ROUND(COUNT(*)::numeric/(SELECT COUNT(*) FROM job_postings_fact WHERE LOWER(job_schedule_type) LIKE '%internship%')*100.,2) AS percentile_missing_info
 FROM job_postings_fact
 WHERE salary_year_avg IS  NULL AND salary_hour_avg IS NULL AND LOWER(job_schedule_type) LIKE '%internship%'
 
